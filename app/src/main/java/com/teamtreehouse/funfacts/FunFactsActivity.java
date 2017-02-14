@@ -1,19 +1,26 @@
 package com.teamtreehouse.funfacts;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Random;
-
 
 public class FunFactsActivity extends Activity {
+    private static final String KEY_FACT = "KEY_FACT";
+    private static final String KEY_COLOR = "KEY_COLOR";
+    private String mFact;
+    private int mColor;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        
+        outState.putString(KEY_FACT, mFact);
+        outState.putInt(KEY_COLOR, mColor);
+    }
 
     private FactBook mFactBook = new FactBook();
     private ColorWheel mColorWheel = new ColorWheel();
@@ -31,12 +38,12 @@ public class FunFactsActivity extends Activity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fact = mFactBook.getFact();
-                factLabel.setText(fact);
+                mFact = mFactBook.getFact();
+                factLabel.setText(mFact);
 
-                int color = mColorWheel.getColor();
-                relativeLayout.setBackgroundColor(color);
-                showFactButton.setTextColor(color);
+                mColor = mColorWheel.getColor();
+                relativeLayout.setBackgroundColor(mColor);
+                showFactButton.setTextColor(mColor);
             }
         };
         showFactButton.setOnClickListener(listener);
